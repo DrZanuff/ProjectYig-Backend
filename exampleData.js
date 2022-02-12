@@ -1,4 +1,4 @@
-const data = {
+const worldStatus = {
   targetPlayers: 10, // Numero de jogadores necessários para ativar o próximo bloco
   currentPlayers: 0, // Quantos jogadores já jogaram neste bloco
   currentBlock: 0, // Indice do Bloco atual
@@ -10,6 +10,9 @@ const data = {
     playersDamageMult: 1.0,
     playersMaxLife: 3.0,
   },
+}
+
+const globalEvents = {
   gameGlobalEvents: {
     yigPoison: {
       //Jogadores ficam com apenas 2 de vida
@@ -19,6 +22,9 @@ const data = {
       eventActivation: 'dateObject',
     },
   },
+}
+
+const vortexList = {
   vortexSpawn: [
     {
       id: 0,
