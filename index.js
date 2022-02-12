@@ -18,8 +18,6 @@ const port = process.env.PORT || 4001
 const DB_USER = process.env.USER
 const DB_PASSWORD = process.env.PASSWORD
 
-console.log(DB_USER, DB_PASSWORD)
-
 mongoose
   .connect(
     `mongodb+srv://${DB_USER}:${DB_PASSWORD}@clusteryig.2l0k4.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`

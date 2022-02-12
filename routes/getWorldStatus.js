@@ -12,16 +12,25 @@ router.get('/', async (req, res) => {
   try {
     const headers = req.headers
 
-    const worldStatus = await WorldStatus.find({}, { __v: 0, _id: 0 })
+    if (headers['user-agent'] == 'godot') {
+      const AUTH = process.env.AUTH
+      const KEY = process.env.KEY
 
-    res.status(200).json({ worldStatus })
-    // res.json({message: 'OK'})
+      if (headers['auth-token'] == AUTH && headers['user-key'] == KEY) {
+        const worldStatus = await WorldStatus.find({}, { __v: 0, _id: 0 })
+
+        res.status(200).json({ worldStatus })
+      } else {
+        throw 'Credentials are no valid! Please verify the header authentication.'
+      }
+    } else {
+      throw 'Not alowed, application must be a running version of the game.'
+    }
   } catch (error) {
     res.status(500).json({
       error,
     })
   }
-  // res.json(headers)
 })
 
 export default router
