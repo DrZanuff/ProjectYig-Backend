@@ -3,7 +3,7 @@ import { Router } from 'express'
 // const Router = require('express')
 // const config = require('dotenv')
 import { config } from 'dotenv'
-import { WorldStatus } from '../models/worldStatus'
+import { WorldStatus } from '../models/worldStatus.js'
 
 config()
 const router = Router()

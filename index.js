@@ -1,5 +1,5 @@
 import express from 'express'
-import getWorldStatus from './routes/getWorldStatus'
+import getWorldStatus from './routes/getWorldStatus.js'
 import mongoose from 'mongoose'
 
 const app = express()
