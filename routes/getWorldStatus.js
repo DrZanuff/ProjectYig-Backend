@@ -17,9 +17,27 @@ router.get('/', async (req, res) => {
       const KEY = process.env.KEY
 
       if (headers['auth-token'] == AUTH && headers['user-key'] == KEY) {
-        const worldStatus = await WorldStatus.find({}, { __v: 0, _id: 0 })
+        const worldStatus = await WorldStatus.find({}, { __v: 0 })
 
-        res.status(200).json({ worldStatus })
+        const { _id: id } = worldStatus[0]
+        //const id = JSON.stringify(_id)
+
+        console.log('THIS IS THE ID', id)
+
+        const newWordStatus = {
+          currentPlayers: worldStatus[0].currentPlayers + 1,
+        }
+
+        console.log('NEW WORDL STATUS', newWordStatus)
+
+        const updatedWorldStatus = await WorldStatus.updateOne(
+          { _id: id },
+          newWordStatus
+        )
+
+        res
+          .status(200)
+          .json({ worldStatus: worldStatus[0], updatedWorldStatus })
       } else {
         throw 'Credentials are no valid! Please verify the header authentication.'
       }
