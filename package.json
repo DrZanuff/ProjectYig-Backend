@@ -12,6 +12,7 @@
   "author": "DrZanuff",
   "license": "MIT",
   "dependencies": {
+    "date-fns": "^2.28.0",
     "dotenv": "^16.0.0",
     "express": "^4.17.2",
     "mongoose": "^6.2.1",
