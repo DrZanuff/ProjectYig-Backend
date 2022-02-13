@@ -42,3 +42,27 @@ const vortexList = {
     },
   ],
 }
+
+const multiverseMetrics = {
+  totalPlayers: 0,
+  currentEon: 0,
+  totalPlayersCurrentEon: 0,
+}
+
+const multiverseMetrics = {
+  totalPlayers: 0,
+  currentEon: 0,
+  totalPlayersCurrentEon: 0,
+
+  eons: [
+    {
+      eonId: 0,
+      eonStartDate: '',
+      eonEndDate: '',
+      totalPlayers: 0,
+      heroName: 'The First One',
+      heroMessage:
+        'Yig awakens, yet again, in another Universe, in another Eon. You must fulfill your destiny and try to save the Multiverse..., as you did before, as you will again, in the infinitive of the existence.',
+    },
+  ],
+}

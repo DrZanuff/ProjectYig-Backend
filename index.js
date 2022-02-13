@@ -1,5 +1,6 @@
 import express from 'express'
 import getWorldStatus from './routes/getWorldStatus.js'
+import createMultiverse from './routes/createMultiverse.js'
 import mongoose from 'mongoose'
 
 const app = express()
@@ -12,6 +13,7 @@ app.use(
 app.use(express.json())
 
 app.use('/getWorldStatus', getWorldStatus)
+app.use('/createMultiverse', createMultiverse)
 
 const port = process.env.PORT || 4001
 

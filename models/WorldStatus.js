@@ -8,6 +8,8 @@ const schema = new Schema({
   blockActivation: { type: Date, required: true },
   difficultyBalance: { type: Number, required: true },
 
+  bossLife: { type: Number, required: true },
+
   gameMutations: {
     enemiesDamageBonus: { type: Number, required: true },
     playersDamageMult: { type: Number, required: true },

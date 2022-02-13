@@ -1,7 +1,11 @@
 import { Router } from 'express'
 import { config } from 'dotenv'
-import { WorldStatus } from '../models/worldStatus.js'
-import { incrementPlayerCount } from '../modules/index.js'
+import { WorldStatus } from '../models/WorldStatus.js'
+import { MultiverseMetric } from '../models/MultiVerseMetric'
+import {
+  incrementPlayerCount,
+  incrementTotalPlayerCount,
+} from '../modules/index.js'
 
 config()
 const router = Router()
@@ -15,24 +19,34 @@ router.get('/', async (req, res) => {
       const KEY = process.env.KEY
 
       if (headers['auth-token'] == AUTH && headers['user-key'] == KEY) {
-        const worldStatus = await WorldStatus.find({}, { __v: 0 })
+        // Find World Status
+        const worldStatus = await WorldStatus.findOne({}, { __v: 0 })
+        const { _id: worldStatusId } = worldStatus
 
-        const { _id: id } = worldStatus[0]
+        const newWordStatus = incrementPlayerCount(worldStatus)
 
-        console.log('THIS IS THE ID', id)
+        // Find Metrics
+        const multiverseMetric = await MultiverseMetric.findOne({}, { __v: 0 })
+        const { _id: multiverseMetricId } = multiverseMetric
 
-        const newWordStatus = incrementPlayerCount(worldStatus[0])
+        const newMultiverseMetric = incrementTotalPlayerCount(multiverseMetric)
 
-        console.log('NEW WORDL STATUS', newWordStatus)
+        // Update all values
+        const updatedMultiverseMetric = await MultiverseMetric.updateOne(
+          { _id: multiverseMetricId },
+          newMultiverseMetric
+        )
 
         const updatedWorldStatus = await WorldStatus.updateOne(
-          { _id: id },
+          { _id: worldStatusId },
           newWordStatus
         )
 
-        res
-          .status(200)
-          .json({ worldStatus: worldStatus[0], updatedWorldStatus })
+        res.status(200).json({
+          worldStatus: worldStatus,
+          updatedWorldStatus,
+          updatedMultiverseMetric,
+        })
       } else {
         throw 'Credentials are no valid! Please verify the header authentication.'
       }
