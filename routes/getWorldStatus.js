@@ -44,13 +44,6 @@ router.get('/', async (req, res) => {
             1
           )
 
-          console.log(
-            'CURRENT DATE',
-            currentDate,
-            'LAST BLOCK DATE',
-            lastBlockActivation
-          )
-          console.log('DAYS INTERVALS', daysInterval)
           const difficultyBalance = targetPlayers / daysInterval
           targetPlayers = Math.floor(targetPlayers / daysInterval) * 10
 
