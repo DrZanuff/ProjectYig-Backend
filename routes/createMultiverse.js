@@ -19,16 +19,12 @@ router.post('/', async (req, res) => {
         if ((headers['action'] = CREATE)) {
           const multiverse = await MultiverseMetric.findOne({}, {})
 
-          console.log('REPONSE', multiverse)
-
           if (!multiverse) {
             console.log('There is no Multiverse, creating one')
             const dateString = req.body.date
             const dateObject = new Date(dateString)
 
             if (dateString && isValid(dateObject)) {
-              console.log('DATE', dateString, 'DATE OBJ', dateObject)
-
               await MultiverseMetric.create({
                 totalPlayers: 0,
                 currentEon: 0,
@@ -46,14 +42,14 @@ router.post('/', async (req, res) => {
                   },
                 ],
               })
+
+              res.status(200).json({ message: 'Multiverse Created' })
             } else {
               throw 'You must pass a valid date to the parameter "date" in the payload'
             }
           } else {
             throw 'There is already a Multiverse created. Erase the current one if you want to create a new one'
           }
-
-          res.status(200).json({ message: 'Multiverse Created' })
         } else {
           throw 'Action invalid! Please verify the action in the header.'
         }

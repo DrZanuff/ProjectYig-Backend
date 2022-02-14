@@ -2,6 +2,7 @@ import { Router } from 'express'
 import { config } from 'dotenv'
 import { WorldStatus } from '../models/WorldStatus.js'
 import { MultiverseMetric } from '../models/MultiVerseMetric'
+import { Vortex } from '../models/Vortex'
 import {
   incrementPlayerCount,
   incrementTotalPlayerCount,
@@ -20,7 +21,7 @@ router.get('/', async (req, res) => {
 
       if (headers['auth-token'] == AUTH && headers['user-key'] == KEY) {
         // Find World Status
-        const worldStatus = await WorldStatus.findOne({}, { __v: 0 })
+        const worldStatus = await WorldStatus.findOne({}, { __v: 0, _id: 0 })
         const { _id: worldStatusId } = worldStatus
 
         const newWordStatus = incrementPlayerCount(worldStatus)
@@ -31,21 +32,20 @@ router.get('/', async (req, res) => {
 
         const newMultiverseMetric = incrementTotalPlayerCount(multiverseMetric)
 
-        // Update all values
-        const updatedMultiverseMetric = await MultiverseMetric.updateOne(
+        // Update Metrics
+        await MultiverseMetric.updateOne(
           { _id: multiverseMetricId },
           newMultiverseMetric
         )
+        // Update World Status
+        await WorldStatus.updateOne({ _id: worldStatusId }, newWordStatus)
 
-        const updatedWorldStatus = await WorldStatus.updateOne(
-          { _id: worldStatusId },
-          newWordStatus
-        )
+        // Get all Vortexes
+        const vortexes = await Vortex.find({}, { __v: 0, _id: 0 })
 
         res.status(200).json({
           worldStatus: worldStatus,
-          updatedWorldStatus,
-          updatedMultiverseMetric,
+          vortexes,
         })
       } else {
         throw 'Credentials are no valid! Please verify the header authentication.'
