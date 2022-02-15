@@ -10,6 +10,9 @@ const schema = new Schema({
 
   bossLife: { type: Number, required: true },
 
+  heroName: { type: String, required: true },
+  heroMessage: { type: String, required: true },
+
   gameMutations: {
     enemiesDamageBonus: { type: Number, required: true },
     playersDamageMult: { type: Number, required: true },

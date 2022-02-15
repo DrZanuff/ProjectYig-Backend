@@ -3,6 +3,7 @@ import { config } from 'dotenv'
 import { WorldStatus } from '../models/WorldStatus.js'
 import { MultiverseMetric } from '../models/MultiVerseMetric'
 import { Vortex } from '../models/Vortex'
+import { ObjectId } from 'mongodb'
 import {
   incrementPlayerCount,
   incrementTotalPlayerCount,
@@ -21,7 +22,7 @@ router.get('/', async (req, res) => {
 
       if (headers['auth-token'] == AUTH && headers['user-key'] == KEY) {
         // Find World Status
-        const worldStatus = await WorldStatus.findOne({}, { __v: 0, _id: 0 })
+        const worldStatus = await WorldStatus.findOne({}, { __v: 0 })
         const { _id: worldStatusId } = worldStatus
 
         const newWordStatus = incrementPlayerCount(worldStatus)
@@ -38,7 +39,11 @@ router.get('/', async (req, res) => {
           newMultiverseMetric
         )
         // Update World Status
-        await WorldStatus.updateOne({ _id: worldStatusId }, newWordStatus)
+        const result = await WorldStatus.updateOne(
+          { _id: worldStatusId },
+          newWordStatus
+        )
+        console.log('RESULT', result, worldStatusId)
 
         // Get all Vortexes
         const vortexes = await Vortex.find({}, { __v: 0, _id: 0 })
