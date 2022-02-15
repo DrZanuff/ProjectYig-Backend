@@ -29,7 +29,7 @@ router.patch('/', async (req, res) => {
           if (newBossLife > 0) {
             await WorldStatus.findOneAndUpdate(
               { _id: id },
-              { bossLife: newBossLife },
+              { bossLife: Math.max(newBossLife, 100) },
               { new: true }
             )
 
