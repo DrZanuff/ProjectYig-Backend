@@ -1,5 +1,6 @@
 import express from 'express'
 import getWorldStatus from './routes/getWorldStatus.js'
+import startGame from './routes/startGame'
 import createMultiverse from './routes/createMultiverse.js'
 import updateVortex from './routes/updateVortex.js'
 import damageBoss from './routes/damageBoss'
@@ -15,6 +16,7 @@ app.use(
 app.use(express.json())
 
 app.use('/getWorldStatus', getWorldStatus)
+app.use('/startGame', startGame)
 app.use('/createMultiverse', createMultiverse)
 app.use('/updateVortex', updateVortex)
 app.use('/damageBoss', damageBoss)
