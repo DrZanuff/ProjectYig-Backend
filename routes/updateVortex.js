@@ -53,12 +53,16 @@ router.post('/:id', async (req, res) => {
             if (req.body.type != 'ammo' && req.body.type != 'health')
               throw 'Invalid type'
 
+            const multiplier = req.body.type == 'ammo' ? 50 : 5
+
             newVortex = {
               id,
               type: req.body.type,
               active: false,
-              targetValue: Math.floor(worldStatus.difficultyBalance * 10),
-              currentValue: 0,
+              targetValue: Math.floor(
+                worldStatus.difficultyBalance * multiplier
+              ),
+              currentValue: req.body.type == 'ammo' ? 10 : 1,
             }
 
             await Vortex.create(newVortex)
