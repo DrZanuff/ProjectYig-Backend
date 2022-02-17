@@ -29,14 +29,18 @@ router.post('/:id', async (req, res) => {
             // Update Vortex
             if (vortex.active == true) throw 'This vortex is activated.'
 
-            if (vortex.currentValue + 10 >= vortex.targetValue) {
+            const amount = req.body.amount
+            if (!amount) throw 'Invalid Vortex Data, no ammout!'
+            if (isNaN(req.body.amount)) throw 'Invalid ammout data.'
+
+            if (vortex.currentValue + amount >= vortex.targetValue) {
               newVortex = {
                 active: true,
-                currentValue: vortex.currentValue + 10,
+                currentValue: vortex.currentValue + amount,
               }
             } else {
               newVortex = {
-                currentValue: vortex.currentValue + 10,
+                currentValue: vortex.currentValue + amount,
               }
             }
 
@@ -45,7 +49,7 @@ router.post('/:id', async (req, res) => {
             res.status(201).json({ message: 'Vortex updated...' })
           } else {
             // Create Vortex
-            if (!req.body.type) throw 'Invalid Vortex Data'
+            if (!req.body.type) throw 'Invalid Vortex Data, no type!'
             if (req.body.type != 'ammo' && req.body.type != 'health')
               throw 'Invalid type'
 
