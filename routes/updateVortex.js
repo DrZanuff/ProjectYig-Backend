@@ -25,13 +25,14 @@ router.post('/:id', async (req, res) => {
 
           const worldStatus = await WorldStatus.findOne({})
           const vortex = await Vortex.findOne({ id: id })
+
+          const amount = req.body.amount
+          if (!amount) throw 'Invalid Vortex Data, no ammout!'
+          if (isNaN(req.body.amount)) throw 'Invalid ammout data.'
+
           if (vortex) {
             // Update Vortex
             if (vortex.active == true) throw 'This vortex is activated.'
-
-            const amount = req.body.amount
-            if (!amount) throw 'Invalid Vortex Data, no ammout!'
-            if (isNaN(req.body.amount)) throw 'Invalid ammout data.'
 
             if (vortex.currentValue + amount >= vortex.targetValue) {
               newVortex = {
@@ -62,7 +63,7 @@ router.post('/:id', async (req, res) => {
               targetValue: Math.floor(
                 worldStatus.difficultyBalance * multiplier
               ),
-              currentValue: req.body.type == 'ammo' ? 10 : 1,
+              currentValue: req.body.type == 'ammo' ? amount : 1,
             }
 
             await Vortex.create(newVortex)
