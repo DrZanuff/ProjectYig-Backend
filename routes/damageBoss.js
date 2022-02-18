@@ -53,6 +53,7 @@ router.patch('/', async (req, res) => {
               difficultyBalance: 1.0,
 
               bossLife: 3000.0,
+              bossTotalLife: 3000.0,
 
               heroName: req.body.name ? req.body.name : defaultHeroName,
               heroMessage: req.body.message

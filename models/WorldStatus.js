@@ -9,6 +9,7 @@ const schema = new Schema({
   difficultyBalance: { type: Number, required: true },
 
   bossLife: { type: Number, required: true },
+  bossTotalLife: { type: Number, required: true },
 
   heroName: { type: String, required: true },
   heroMessage: { type: String, required: true },
