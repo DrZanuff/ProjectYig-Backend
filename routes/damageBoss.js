@@ -39,6 +39,15 @@ router.patch('/', async (req, res) => {
               bossLife: newBossLife,
             })
           } else {
+            if (!req.body.name && !req.body.message) {
+              await WorldStatus.findOneAndUpdate(
+                { _id: id },
+                { bossLife: 100 },
+                { new: true }
+              )
+              throw `You've killed the boss, but there is no message and name in the payload. Boss life setted to ${100}`
+            }
+
             await Vortex.deleteMany({})
 
             const defaultHeroName = 'The First One'
